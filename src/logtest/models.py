@@ -29,11 +29,17 @@ class LoggerSettings(models.Model):
             logger = logging.getLogger()
             if self.handler == HandlerTypes.SPLUNK:
                 logger.handlers = []
-                splunk_handler = SplunkHandler()
-                splunk_handler.setLevel(logging.DEBUG)
+                hndl = SplunkHandler()
+                hndl.setLevel(logging.DEBUG)
                 formatter = logging.Formatter('[%(asctime)s] {%(module)s} [%(levelname)s] - %(message)s')
-                splunk_handler.setFormatter(formatter)
-                logger.handlers.append(splunk_handler)
-                pass
+                hndl.setFormatter(formatter)
+                logger.handlers.append(hndl)
+            elif self.handler == HandlerTypes.CONSOLE:
+                logger.handlers = []
+                hndl = logging.StreamHandler()
+                hndl.setLevel(logging.DEBUG)
+                formatter = logging.Formatter('[%(asctime)s] {%(module)s} [%(levelname)s] - %(message)s')
+                hndl.setFormatter(formatter)
+                logger.handlers.append(hndl)   
 
         
